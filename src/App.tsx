@@ -5,7 +5,6 @@ import Feed from './components/Feed';
 import Account from './components/Account';
 import Web3 from 'web3';
 import useWindowWidth from './components/useWindowWidth';
-import { default as Contract } from './build/Kwitter.json';
 import { reduceAddress, getIdenticon } from './utils';
 import LoaderAnimation from './components/LoaderAnimation';
 import NotFound from './components/NotFound';
@@ -58,7 +57,8 @@ const App = () => {
 
         // Get contract
         const id = await (window as any).web3.eth.net.getId();
-        const kwitter = new (window as any).web3.eth.Contract(Contract.abi, Contract.networks[id].address);
+        const contractJSON: any = await fetch("output/Kwitter.json");
+        const kwitter = new (window as any).web3.eth.Contract(contractJSON.abi, contractJSON.networks[id].address);
         setContract( kwitter );
 
         // Get owner
