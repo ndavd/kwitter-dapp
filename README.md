@@ -1,3 +1,6 @@
+![Website](https://img.shields.io/website?style=flat-square&url=https%3A%2F%2Fkwitter.ndavd.com)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/ndavd/kwitter-dapp?style=flat-square)
+
 <h1 align="center">Kwitter</h1>
 
 </br>
