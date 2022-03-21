@@ -9,11 +9,11 @@
 </p>
 </br>
 
-## How to get started
+## Getting started
 
-- Install MetaMask and create an account
-- Get some Kovan Ethereum (KETH) from a faucet ([chainlink's faucet](https://faucets.chain.link/kovan) for example)
-- Reload the page
+1. Install MetaMask and create an account.
+1. Get some Kovan Ethereum (KETH) from a faucet (for example [chainlink's](https://faucets.chain.link/kovan)).
+1. Reload the page and start exploring!
 
 ## How it works
 
