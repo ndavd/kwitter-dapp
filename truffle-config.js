@@ -3,7 +3,7 @@ const HDWalletProvider = require("@truffle/hdwallet-provider");
 
 module.exports = {
   contracts_directory: './src/contracts',
-  contracts_build_directory: './public/output',
+  contracts_build_directory: './public',
   networks: {
     kovan: {
       provider: () => {
