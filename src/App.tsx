@@ -56,7 +56,6 @@ const App = () => {
         }
 
         // Get contract
-        const id = await (window as any).web3.eth.net.getId();
         const contractData = await fetch("/Kwitter.json", {
           headers: {
             "Content-Type": "application/json",
@@ -66,7 +65,7 @@ const App = () => {
         const contractJSON = await contractData.json();
         const kwitter = await new (window as any).web3.eth.Contract(
           contractJSON.abi,
-          contractJSON.networks[id].address
+          contractJSON.networks[42].address
         );
         setContract( kwitter );
 
