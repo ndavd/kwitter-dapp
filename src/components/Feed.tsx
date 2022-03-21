@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { getIdenticon } from '../utils';
 import { Kweet, SortBy, fetchOrderedKweets } from '../utils';
@@ -15,6 +15,8 @@ interface Props {
 const Feed = ( { isMobile, account, contract, owner }: Props ) => {
   const [ content, setContent ] = useState<string>("");
   const [ byteCount, setByteCount ] = useState<number>(256);
+
+  const kweetButtonRef = useRef<HTMLButtonElement>(null);
 
   const [ sortBy, setSortBy ] = useState<SortBy>("newest");
 
@@ -41,8 +43,10 @@ const Feed = ( { isMobile, account, contract, owner }: Props ) => {
     setContent("");
   }
 
-  const submitKweet = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.currentTarget.disabled = true;
+  const submitKweet = async () => {
+    if (kweetButtonRef.current) {
+      kweetButtonRef.current.disabled = true;
+    }
     try {
       await contract.methods
         .kweet(content.trim())
@@ -53,7 +57,9 @@ const Feed = ( { isMobile, account, contract, owner }: Props ) => {
     } catch (err: any) {
       if (err.code !== 4001) console.error(err);
     }
-    e.currentTarget.disabled = false;
+    if (kweetButtonRef.current) {
+      kweetButtonRef.current.disabled = false;
+    }
     getKweets();
   }
 
@@ -73,7 +79,7 @@ const Feed = ( { isMobile, account, contract, owner }: Props ) => {
   useEffect(() => {
     const load = async () => {
       // Reset kweet list
-      setKweetList([]);
+      // setKweetList([]);
 
       await getKweets();
     }
@@ -111,7 +117,7 @@ const Feed = ( { isMobile, account, contract, owner }: Props ) => {
           >
             {byteCount}
           </div>
-          <button
+          <button ref={kweetButtonRef}
             onClick={ submitKweet }
             disabled={byteCount < 0 || byteCount == 256}
             className={

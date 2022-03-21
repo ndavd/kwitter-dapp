@@ -9,6 +9,8 @@ import { reduceAddress, getIdenticon } from './utils';
 import LoaderAnimation from './components/LoaderAnimation';
 import NotFound from './components/NotFound';
 
+const isProduction = process.env.NODE_ENV === "production";
+
 const App = () => {
   const [ hasMetaMask, setHasMetaMask ] = useState<boolean>(false);
   const [ account, setAccount ] = useState<string>("");
@@ -24,6 +26,8 @@ const App = () => {
   }
 
   const requestKovan = async () => {
+    if (!isProduction) return;
+
     try {
       await (window as any).ethereum.request({
         method: "wallet_switchEthereumChain",
@@ -62,14 +66,21 @@ const App = () => {
         (window as any).web3 = new Web3(ethereum);
         setHasMetaMask(true);
 
-        const net = await (window as any).web3.eth.net.getNetworkType();
-        if (net === "kovan") {
-          getAccount();
+        if (isProduction) {
+          const net = await (window as any).web3.eth.net.getNetworkType();
+          if (net === "kovan") {
+            getAccount();
+          } else {
+            requestKovan();
+          }
         } else {
-          requestKovan();
+          getAccount();
         }
 
         // Get contract
+        let id;
+        if (!isProduction) id = await (window as any).web3.eth.net.getId();
+
         const contractData = await fetch("/Kwitter.json", {
           headers: {
             "Content-Type": "application/json",
@@ -79,7 +90,9 @@ const App = () => {
         const contractJSON = await contractData.json();
         const kwitter = await new (window as any).web3.eth.Contract(
           contractJSON.abi,
-          contractJSON.networks[42].address
+          isProduction?
+            contractJSON.networks[42].address:
+            contractJSON.networks[id].address
         );
         setContract( kwitter );
 
