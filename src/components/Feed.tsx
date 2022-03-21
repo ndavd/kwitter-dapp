@@ -79,7 +79,7 @@ const Feed = ( { isMobile, account, contract, owner }: Props ) => {
   useEffect(() => {
     const load = async () => {
       // Reset kweet list
-      // setKweetList([]);
+      setKweetList([]);
 
       await getKweets();
     }
