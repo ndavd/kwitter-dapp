@@ -23,15 +23,20 @@ const App = () => {
     setAccount(accounts[0]);
   }
 
-  const handleConnect = async () => {
+  const requestKovan = async () => {
     try {
-      // Request change to Kovan network
-      if (process.env.NODE_ENV === "production") {
-        await (window as any).ethereum.request({
-          method: "wallet_switchEthereumChain",
-          params: [{ chainId: "0x2a" }]
-        });
-      }
+      await (window as any).ethereum.request({
+        method: "wallet_switchEthereumChain",
+        params: [{ chainId: "0x2a" }]
+      });
+    } catch (err: any) {
+      if (err.code !== 4001) console.error(err);
+    }
+  }
+
+  const handleConnect = async () => {
+    requestKovan();
+    try {
       // Request accounts
       await (window as any).ethereum.request({ method: "eth_requestAccounts" });
       getAccount();
@@ -54,6 +59,8 @@ const App = () => {
         } else {
           getAccount();
         }
+
+        requestKovan();
 
         // Get contract
         const contractData = await fetch("/Kwitter.json", {
