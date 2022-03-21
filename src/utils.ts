@@ -36,34 +36,31 @@ export type SortBy = "newest" | "most voted";
 export const fetchOrderedKweets =
   async (contract: any, account: string, sortBy: SortBy = "newest", list: number[] = []) => {
 
+  const fetchKweet = async (list: Kweet[], index: number) => {
+    const k = await contract.methods.kweets(index).call();
+    if (k.id === 0) return;
+
+    const voted = await contract.methods.hasVoted(account, k.id).call();
+    list.push({
+      id:        k.id,
+      author:    k.author,
+      content:   k.content,
+      voteCount: k.voteCount,
+      timestamp: k.timestamp,
+      hasVoted:  voted,
+    });
+  }
+
   const totalKweets = await contract.methods.totalKweets().call();
   let kweets: Kweet[] = [];
 
   if (list.length === 0) {
     for (let i = 0; i < totalKweets; i++) {
-      const k = await contract.methods.kweets(i+1).call();
-      const voted = await contract.methods.hasVoted(account, k.id).call();
-      kweets.push({
-        id:        k.id,
-        author:    k.author,
-        content:   k.content,
-        voteCount: k.voteCount,
-        timestamp: k.timestamp,
-        hasVoted:  voted,
-      });
+      await fetchKweet(kweets, i + 1);
     }
   } else {
     for (let i = 0; i < list.length; i++) {
-      const k = await contract.methods.kweets(list[i]).call();
-      const voted = await contract.methods.hasVoted(account, k.id).call();
-      kweets.push({
-        id:        k.id,
-        author:    k.author,
-        content:   k.content,
-        voteCount: k.voteCount,
-        timestamp: k.timestamp,
-        hasVoted:  voted,
-      });
+      await fetchKweet(kweets, list[i]);
     }
   }
 
