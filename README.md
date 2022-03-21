@@ -9,6 +9,12 @@
 </p>
 </br>
 
+## How to get started
+
+- Install MetaMask and create an account
+- Get some Kovan Ethereum (KETH) from a faucet ([chainlink's faucet](https://faucets.chain.link/kovan) for example)
+- Reload the page
+
 ## How it works
 
 Share small pieces of text (_kweets_) with everyone. Vote the kweets you like
