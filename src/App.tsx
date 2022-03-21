@@ -64,7 +64,7 @@ const App = () => {
           }
         });
         const contractJSON = await contractData.json();
-        const kwitter = await new (window as any).web3.eth.Contract(
+        const kwitter = new (window as any).web3.eth.Contract(
           contractJSON.abi,
           contractJSON.networks[id].address
         );
