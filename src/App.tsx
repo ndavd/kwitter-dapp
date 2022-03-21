@@ -50,6 +50,15 @@ const App = () => {
       const { ethereum } = window as any;
 
       if (ethereum && ethereum.isMetaMask) {
+
+        ethereum.on("accountsChanged", (_: string[]) => {
+          window.location.reload();
+        });
+
+        ethereum.on('chainChanged', (_: string) => {
+          window.location.reload();
+        });
+
         (window as any).web3 = new Web3(ethereum);
         setHasMetaMask(true);
 
@@ -76,14 +85,6 @@ const App = () => {
 
         // Get owner
         setOwner(await kwitter.methods.owner().call());
-
-        ethereum.on("accountsChanged", (_: string[]) => {
-          window.location.reload();
-        });
-
-        ethereum.on('chainChanged', (chainId: string) => {
-          window.location.reload();
-        });
       }
     }
     load();
