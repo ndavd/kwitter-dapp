@@ -7,7 +7,19 @@
     width=350
   />
 </p>
-</br>
+
+<strong>
+  <em>
+    <p align="center">
+      Kweet about your day, kweet about your thoughts, kweet about your dreams or
+      about anything you want.
+    </p>
+    <p align="center">
+      Be respectful and have fun :]
+    </p>
+  </em>
+</strong>
+<br/>
 
 ## Getting started
 
@@ -35,17 +47,3 @@ functionality as the main network while being free to use.
 Everything is transparent, all data is public for everyone and there is no
 censoring whatsoever (of course in a real decentralized social network public
 protocols should be implemented in order to prevent bad content).
-
-<br/>
-
-<strong>
-  <em>
-    <p align="center">
-      Kweet about your day, kweet about your thoughts, kweet about your dreams or
-      about anything you want.
-    </p>
-    <p align="center">
-      Be respectful and have fun :]
-    </p>
-  </em>
-</strong>
