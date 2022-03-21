@@ -81,11 +81,9 @@ const App = () => {
           window.location.reload();
         });
 
-        if (process.env.NODE_ENV === "production") {
-          ethereum.on('chainChanged', (chainId: string) => {
-            if (chainId !== "0x2a") window.location.reload();
-          });
-        }
+        ethereum.on('chainChanged', (chainId: string) => {
+          window.location.reload();
+        });
       }
     }
     load();
