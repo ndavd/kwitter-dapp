@@ -41,13 +41,19 @@ const Feed = ( { isMobile, account, contract, owner }: Props ) => {
     setContent("");
   }
 
-  const submitKweet = async () => {
-    await contract.methods
-      .kweet(content.trim())
-      .send({
-        from: account,
-        value: kweetPrice
-      });
+  const submitKweet = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.currentTarget.disabled = true;
+    try {
+      await contract.methods
+        .kweet(content.trim())
+        .send({
+          from: account,
+          value: kweetPrice
+        });
+    } catch (err: any) {
+      if (err.code !== 4001) console.error(err);
+    }
+    e.currentTarget.disabled = false;
     getKweets();
   }
 
