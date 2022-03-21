@@ -12,8 +12,11 @@
 ## Getting started
 
 1. Install MetaMask and create an account.
-1. Get some Kovan Ethereum (KETH) from a faucet (for example [chainlink's](https://faucets.chain.link/kovan)).
+1. Get some Kovan Ethereum (KETH) from a faucet
+   (for example [chainlink's](https://faucets.chain.link/kovan)).
 1. Reload the page and start exploring!
+
+If you encounter any problems make sure to submit an issue.
 
 ## How it works
 
