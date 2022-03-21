@@ -71,7 +71,12 @@ const Feed = ( { isMobile, account, contract, owner }: Props ) => {
   }, [content]);
 
   useEffect(() => {
-    const load = async () => await getKweets();
+    const load = async () => {
+      // Reset kweet list
+      setKweetList([]);
+
+      await getKweets();
+    }
     load();
   }, [sortBy]);
 

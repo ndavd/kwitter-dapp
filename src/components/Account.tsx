@@ -64,7 +64,12 @@ const Account = ( { contract, account, owner }: Props ) => {
 
   useEffect(() => {
     if (ids.length === 0) return;
-    const load = async () => await getKweets();
+    const load = async () => {
+      // Reset kweet list
+      setKweetList([]);
+
+      await getKweets();
+    };
     load();
   }, [sortBy, ids]);
 
