@@ -1,6 +1,9 @@
 const Footer = () => {
   return <footer
-    className="flex justify-center items-center h-20 w-full -mt-20 bg-secondary text-white font-semibold"
+    className={
+      "flex justify-center items-center h-20 w-full -mt-20 " +
+      "bg-secondary text-white font-semibold"
+    }
   >
     <p>
       made by: <a

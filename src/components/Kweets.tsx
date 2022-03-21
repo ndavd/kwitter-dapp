@@ -36,12 +36,13 @@ const Kweets = ( { list, contract, account, owner, showAuthor = true }: Props ) 
         });
       // Update the button styling and increment the vote count
       voteRefs.current[index]!.disabled = true;
-      voteRefs.current[index]!.childNodes[0].nodeValue = voteRefs.current[index]!.childNodes[0].nodeValue!
-        .replace(/^(\d+) (vote.*)/, (_, n) => {
-          const count = (+n+1);
-          const str = count === 1 ? "vote" : "votes";
-          return count + " " + str;
-        });
+      voteRefs.current[index]!.childNodes[0].nodeValue =
+        voteRefs.current[index]!.childNodes[0].nodeValue!
+          .replace(/^(\d+) (vote.*)/, (_, n) => {
+            const count = (+n+1);
+            const str = count === 1 ? "vote" : "votes";
+            return count + " " + str;
+          });
     } catch (err: any) {
       if (err.code !== 4001) console.error(err);
     }
@@ -59,12 +60,15 @@ const Kweets = ( { list, contract, account, owner, showAuthor = true }: Props ) 
           return (
             <li key={i}
               className={
-                `relative group sm:hover:bg-secondary-transparent border-2 border-secondary-light py-2 pb-10 min-h-[6rem] px-2 font-semibold text-secondary/75
+                `relative group sm:hover:bg-secondary-transparent border-2
+                border-secondary-light py-2 pb-10 min-h-[6rem] px-2 font-semibold
+                text-secondary/75
                 ${showAuthor?" pl-8":""}
                 ${(i===0)?"rounded-t-md sm:rounded-t-xl":""}
                 ${(i!==list.length-1)?"border-b-0":"rounded-b-md sm:rounded-b-xl"}`
               }
             >
+
               { showAuthor && <>
                 <Link to={"/" + k.author}>
                   <img src={getIdenticon({value: k.author, size: 64, bg: [255, 255, 255]})}
@@ -74,22 +78,32 @@ const Kweets = ( { list, contract, account, owner, showAuthor = true }: Props ) 
                   />
                 </Link>
                 <div className={
-                    `absolute -top-3 text-xs sm:text-sm px-1 rounded bg-white sm:group-hover:bg-secondary-transparent
+                    `absolute -top-3 text-xs sm:text-sm px-1 rounded bg-white
+                    sm:group-hover:bg-secondary-transparent
                     ${!isOwner?"text-primary-dark/70":"text-yellow-500/80"}`
                   }
                 >
                   {isSmall?reduceAddress(k.author):k.author}
                 </div></>
               }
+
               <div className="translate-x-1 text-base sm:text-lg break-words">
                 {k.content}
               </div>
+
               <div className="text-secondary/50 z-20 text-xs absolute bottom-0 right-0">
                 {date}
                 <button
                   ref={(e) => voteRefs.current.push(e)}
-                  className={`text-base font-mono min-w-[10ch] sm:text-lg font-semibold rounded-tl sm:rounded-tl-lg border-t-2 border-l-2 italic ml-2 duration-150 ease-in-out text-primary-dark border-primary-dark hover:bg-primary-dark/20 disabled:text-white
-                    ${(!isAuthor || k.hasVoted)?"disabled:bg-primary-dark":"disabled:border-transparent disabled:bg-secondary-light"}
+                  className={
+                    `text-base font-mono min-w-[10ch] sm:text-lg font-semibold
+                    rounded-tl sm:rounded-tl-lg border-t-2 border-l-2 italic ml-2
+                    duration-150 ease-in-out text-primary-dark border-primary-dark
+                    hover:bg-primary-dark/20 disabled:text-white
+                    ${(!isAuthor || k.hasVoted)?
+                      "disabled:bg-primary-dark":
+                      "disabled:border-transparent disabled:bg-secondary-light"
+                    }
                     ${(i!==list.length-1)?"border-b-0":"rounded-br sm:rounded-br-lg"}
                   `}
                   onClick={ () => submitVote(k.id, i) }
@@ -98,6 +112,7 @@ const Kweets = ( { list, contract, account, owner, showAuthor = true }: Props ) 
                   {vote}
                 </button>
               </div>
+
             </li>
           );
         })

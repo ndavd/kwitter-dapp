@@ -94,8 +94,12 @@ const Feed = ( { isMobile, account, contract, owner }: Props ) => {
         </Helmet>
       </HelmetProvider>
 
-      <main className="flex flex-col text-secondary md:max-w-3xl px-4 sm:px-8 md:px-10 lg:px-0 mx-auto min-h-screen pt-[4.5rem] sm:pt-28">
-
+      <main
+        className={
+          "flex flex-col text-secondary md:max-w-3xl px-4 " +
+          "sm:px-8 md:px-10 lg:px-0 mx-auto min-h-screen pt-[4.5rem] sm:pt-28"
+        }
+      >
         <section
           className="relative mb-6 flex flex-col"
         >
@@ -104,11 +108,19 @@ const Feed = ( { isMobile, account, contract, owner }: Props ) => {
             value={content}
             onChange={e=>setContent(e.currentTarget.value)}
             onInput={adaptInputHeight}
-            className="peer w-full resize-none text-base sm:text-lg h-24 border-2 border-secondary-light border-b-0 focus:outline-none focus:border-primary-dark p-1 sm:p-2 px-2 sm:pl-12 rounded-t-md sm:rounded-t-xl"
+            className={
+              "peer w-full resize-none text-base sm:text-lg h-24 border-2 " +
+              "border-secondary-light border-b-0 focus:outline-none " +
+              "focus:border-primary-dark p-1 sm:p-2 px-2 sm:pl-12 rounded-t-md sm:rounded-t-xl"
+            }
           />
           {
             !isMobile &&
-            <img className="absolute w-8 sm:w-16 -top-2 -left-2 sm:-top-6 sm:-left-6 border-2  border-secondary-light peer-focus:border-primary-dark"
+            <img
+              className={
+                "absolute w-8 sm:w-16 -top-2 -left-2 sm:-top-6 sm:-left-6 border-2 " +
+                "border-secondary-light peer-focus:border-primary-dark"
+              }
               src={getIdenticon({value: account, size: 64, bg: [255,255,255]})}
             />
           }
@@ -129,11 +141,19 @@ const Feed = ( { isMobile, account, contract, owner }: Props ) => {
           </button>
         </section>
 
-        <button className="mb-2 self-end flex rounded-md sm:rounded-lg font-semibold border-2 border-primary-dark text-primary-dark"
+        <button
+          className={
+            "mb-2 self-end flex rounded-md sm:rounded-lg font-semibold " +
+            "border-2 border-primary-dark text-primary-dark"
+          }
           onClick={() => setSortBy(e=>e==="newest"?"most voted":"newest")}
         >
-          <span className={"text-center w-24 "+(sortBy==="newest"?"bg-primary-dark text-white":"")}>newest</span>
-          <span className={"text-center w-24 "+(sortBy==="most voted"?"bg-primary-dark text-white":"")}>most voted</span>
+          <span className={"text-center w-24 "+(sortBy==="newest"?"bg-primary-dark text-white":"")}>
+            newest
+          </span>
+          <span className={"text-center w-24 "+(sortBy==="most voted"?"bg-primary-dark text-white":"")}>
+            most voted
+          </span>
         </button>
 
         {

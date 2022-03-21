@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom';
-import Home from './components/Home';
-import Feed from './components/Feed';
-import Account from './components/Account';
 import Web3 from 'web3';
 import useWindowWidth from './components/useWindowWidth';
 import { reduceAddress, getIdenticon } from './utils';
+import Home from './components/Home';
+import Feed from './components/Feed';
+import Account from './components/Account';
 import LoaderAnimation from './components/LoaderAnimation';
 import NotFound from './components/NotFound';
 
@@ -79,7 +79,9 @@ const App = () => {
 
         // Get contract
         let id;
-        if (!isProduction) id = await (window as any).web3.eth.net.getId();
+        if (!isProduction) {
+          id = await (window as any).web3.eth.net.getId();
+        }
 
         const contractData = await fetch("/Kwitter.json", {
           headers: {

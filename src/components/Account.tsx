@@ -2,10 +2,10 @@ import { useState, useEffect } from 'react';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
 import { Kweet, SortBy, reduceAddress, fetchOrderedKweets, getIdenticon } from '../utils';
+import useWindowWidth from './useWindowWidth';
 import Kweets from './Kweets';
 import LoaderAnimation from './LoaderAnimation';
 import NotFound from './NotFound';
-import useWindowWidth from './useWindowWidth';
 
 interface Props {
   contract: any;
@@ -82,20 +82,34 @@ const Account = ( { contract, account, owner }: Props ) => {
 
     { wasFound ?
 
-      <main className="flex flex-col text-secondary md:max-w-3xl px-4 sm:px-8 md:px-10 lg:px-0 mx-auto min-h-screen pt-[4.5rem] sm:pt-28">
+      <main
+        className={
+          "flex flex-col text-secondary md:max-w-3xl px-4 " +
+          "sm:px-8 md:px-10 lg:px-0 mx-auto min-h-screen pt-[4.5rem] sm:pt-28"
+        }
+      >
         { acc === account &&
-          <div className="px-2 mb-2 self-end font-semibold italic rounded-md sm:rounded-lg bg-primary">
+          <div className={
+            "px-2 mb-2 self-end font-semibold italic rounded-md sm:rounded-lg bg-primary"
+          }>
             this is you
           </div>
         }
 
         { acc === owner &&
-          <div className="px-2 mb-2 font-semibold italic text-center rounded-md sm:rounded-lg text-white bg-yellow-500">
+          <div className={
+            "px-2 mb-2 font-semibold italic text-center rounded-md sm:rounded-lg text-white bg-yellow-500"
+          }>
             This account belongs to the Kwitter&apos;s founder
           </div>
         }
 
-        <section className="border-2 sm:border-4 border-secondary-light rounded-r-md sm:rounded-r-2xl mb-4 w-full flex text-secondary/70">
+        <section
+          className={
+            "border-2 sm:border-4 border-secondary-light rounded-r-md sm:rounded-r-2xl " +
+            "mb-4 w-full flex text-secondary/70"
+          }
+        >
           <img
             className="w-24 sm:w-32 outline outline-2 sm:outline-4 outline-secondary-light bg-secondary-light/50"
             src={ getIdenticon({value: acc, size: 150, margin:0}) }
@@ -112,7 +126,9 @@ const Account = ( { contract, account, owner }: Props ) => {
               <a target="_blank" rel="noopener noreferrer"
                 className="block sm:inline sm:pl-4 italic font-semibold text-secondary/40 hover:underline"
                 href={"https://kovan.etherscan.io/address/" + acc}
-              >view on Etherscan</a>
+              >
+                view on Etherscan
+              </a>
             </div>
             <div className="text-base flex justify-between">
               <div>
@@ -125,11 +141,19 @@ const Account = ( { contract, account, owner }: Props ) => {
           </div>
         </section>
 
-        <button className="mb-2 self-end flex rounded-md sm:rounded-lg font-semibold border-2 border-primary-dark text-primary-dark"
+        <button
+          className={
+            "mb-2 self-end flex rounded-md sm:rounded-lg font-semibold " +
+            "border-2 border-primary-dark text-primary-dark"
+          }
           onClick={() => setSortBy(e=>e==="newest"?"most voted":"newest")}
         >
-          <span className={"text-center w-24 "+(sortBy==="newest"?"bg-primary-dark text-white":"")}>newest</span>
-          <span className={"text-center w-24 "+(sortBy==="most voted"?"bg-primary-dark text-white":"")}>most voted</span>
+          <span className={"text-center w-24 "+(sortBy==="newest"?"bg-primary-dark text-white":"")}>
+            newest
+          </span>
+          <span className={"text-center w-24 "+(sortBy==="most voted"?"bg-primary-dark text-white":"")}>
+            most voted
+          </span>
         </button>
 
         {
