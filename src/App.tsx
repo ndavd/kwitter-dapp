@@ -53,14 +53,12 @@ const App = () => {
         (window as any).web3 = new Web3(ethereum);
         setHasMetaMask(true);
 
-        if (process.env.NODE_ENV === "production") {
-          const net = await (window as any).web3.eth.net.getNetworkType();
-          if (net === "kovan") getAccount();
-        } else {
+        const net = await (window as any).web3.eth.net.getNetworkType();
+        if (net === "kovan") {
           getAccount();
+        } else {
+          requestKovan();
         }
-
-        requestKovan();
 
         // Get contract
         const contractData = await fetch("/Kwitter.json", {
