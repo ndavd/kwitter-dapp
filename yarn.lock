@@ -2738,13 +2738,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/identicon.js@npm:^2.3.1":
-  version: 2.3.1
-  resolution: "@types/identicon.js@npm:2.3.1"
-  checksum: eba22e41cd5105c4593c7f12f9e2c714b995dbd38c71579f4b8933c2ef1958c1510208486da0f3677ebdd51ece501b2618a4712f05efaa2fabe40abfd7b7880a
-  languageName: node
-  linkType: hard
-
 "@types/istanbul-lib-coverage@npm:*, @types/istanbul-lib-coverage@npm:^2.0.0, @types/istanbul-lib-coverage@npm:^2.0.1":
   version: 2.0.4
   resolution: "@types/istanbul-lib-coverage@npm:2.0.4"
@@ -7987,10 +7980,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"hashprintjs@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "hashprintjs@npm:1.0.0"
-  checksum: 04ad72725e06acde746ea691c1b9bcb171300e65cd5e84154ccb107967d98242b408d62b8673c31abcac1dd4893d19aebb584c084f2f00f908d01628247eb883
+"hashprintjs@npm:latest":
+  version: 1.0.1
+  resolution: "hashprintjs@npm:1.0.1"
+  checksum: 24e5baa65937051737ed46a2c8552cd02308ab85aee76ddcec9b002e4d2033b3809629d633eb8ae7d62f622261b0bce9d0e51bdfef5c8c40f4f17fc305c08df3
   languageName: node
   linkType: hard
 
@@ -9748,7 +9741,6 @@ __metadata:
     "@testing-library/react": ^12.0.0
     "@testing-library/user-event": ^13.2.1
     "@truffle/hdwallet-provider": ^2.0.4
-    "@types/identicon.js": ^2.3.1
     "@types/jest": ^27.0.1
     "@types/node": ^16.7.13
     "@types/react": ^17.0.20
@@ -9760,7 +9752,7 @@ __metadata:
     chai-as-promised: ^7.1.1
     crypto-browserify: ^3.12.0
     dotenv: ^16.0.0
-    hashprintjs: ^1.0.0
+    hashprintjs: latest
     https-browserify: ^1.0.0
     os-browserify: ^0.3.0
     postcss: ^8.4.8

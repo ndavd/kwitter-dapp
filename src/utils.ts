@@ -1,5 +1,3 @@
-import Identicon from 'identicon.js';
-
 const hashprint = require("hashprintjs")
 
 export const reduceAddress = (a: string): string => {
