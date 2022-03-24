@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Kweet, reduceAddress, getIdenticon } from '../utils';
+import { Kweet, reduceAddress, getHashprint } from '../utils';
 import useWindowWidth from './useWindowWidth';
 
 interface Props {
@@ -14,6 +14,8 @@ interface Props {
 const Kweets = ( { list, contract, account, owner, showAuthor = true }: Props ) => {
   const isSmall = useWindowWidth() < 768;
 
+  const hashprintRefs = useRef<(HTMLImageElement|null)[]>([]);
+
   const voteRefs = useRef<(HTMLButtonElement|null)[]>([]);
 
   const [ price, setPrice ] = useState<string>("");
@@ -22,6 +24,11 @@ const Kweets = ( { list, contract, account, owner, showAuthor = true }: Props ) 
     const load = async () => {
       const v = await contract.methods.votePrice().call();
       setPrice(v);
+      for (let i = 0; i <= list.length; i++) {
+        if (list[i] && hashprintRefs.current[i]) {
+          hashprintRefs.current[i]!.src = await getHashprint(list[i].author, 64);
+        }
+      }
     }
     load();
   }, []);
@@ -71,8 +78,8 @@ const Kweets = ( { list, contract, account, owner, showAuthor = true }: Props ) 
 
               { showAuthor && <>
                 <Link to={"/" + k.author}>
-                  <img src={getIdenticon({value: k.author, size: 64, bg: [255, 255, 255]})}
-                    className={`absolute -left-3 sm:-left-6 -top-3 h-10 sm:h-12 border-2
+                  <img ref={(e) => hashprintRefs.current.push(e)}
+                    className={`absolute -left-3 bg-white p-1 sm:-left-6 -top-3 h-10 w-10 sm:h-12 sm:w-12 border-2
                       ${!isOwner?"border-primary-dark":"border-yellow-500"}
                     `}
                   />

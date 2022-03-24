@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
-import { getIdenticon } from '../utils';
+import { getHashprint } from '../utils';
 import { Kweet, SortBy, fetchOrderedKweets } from '../utils';
 import Kweets from './Kweets';
 import LoaderAnimation from './LoaderAnimation';
@@ -13,6 +13,8 @@ interface Props {
 }
 
 const Feed = ( { isMobile, account, contract, owner }: Props ) => {
+  const [ hashprint, setHashprint ] = useState<string>("");
+
   const [ content, setContent ] = useState<string>("");
   const [ byteCount, setByteCount ] = useState<number>(256);
 
@@ -65,6 +67,9 @@ const Feed = ( { isMobile, account, contract, owner }: Props ) => {
 
   useEffect(() => {
     const load = async () => {
+      const hashprint = await getHashprint(account, 64);
+      setHashprint(hashprint)
+
       const kprice = await contract.methods.kweetPrice().call();
       setKweetPrice(kprice);
     };
@@ -118,10 +123,10 @@ const Feed = ( { isMobile, account, contract, owner }: Props ) => {
             !isMobile &&
             <img
               className={
-                "absolute w-8 sm:w-16 -top-2 -left-2 sm:-top-6 sm:-left-6 border-2 " +
+                "absolute w-8 sm:w-16 p-1 bg-white -top-2 -left-2 sm:-top-6 sm:-left-6 border-2 " +
                 "border-secondary-light peer-focus:border-primary-dark"
               }
-              src={getIdenticon({value: account, size: 64, bg: [255,255,255]})}
+              src={hashprint}
             />
           }
           <div className={ "absolute right-0 bottom-4 z-10 text-sm font-semibold px-2 " +

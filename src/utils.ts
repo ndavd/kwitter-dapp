@@ -1,25 +1,13 @@
 import Identicon from 'identicon.js';
 
-export const ownerName = "ndavd";
+const hashprint = require("hashprintjs")
 
 export const reduceAddress = (a: string): string => {
   return a.slice(0, 5) + "..." + a.slice(a.length - 4);
 }
 
-interface GetIdenticon {
-  value:   string;
-  size:    number;
-  bg?:     number[];
-  margin?: number;
-}
-
-export const getIdenticon = ({ value, size, bg = [0,0,0,0], margin = 0.1 }: GetIdenticon): string => {
-  const options = {
-    background: bg,
-    margin,
-    size
-  };
-  return "data:image/png;base64," + new Identicon(value, options as any).toString();
+export const getHashprint = async (data: string, size: number) => {
+  return await hashprint({ data, size, likeness: [0.4, 0.2] })
 }
 
 export interface Kweet {

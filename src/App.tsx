@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom';
 import Web3 from 'web3';
 import useWindowWidth from './components/useWindowWidth';
-import { reduceAddress, getIdenticon } from './utils';
+import { reduceAddress, getHashprint } from './utils';
 import Home from './components/Home';
 import Feed from './components/Feed';
 import Account from './components/Account';
@@ -17,6 +17,8 @@ const App = () => {
   const [ owner, setOwner] = useState<string>("");
 
   const [ contract, setContract ] = useState();
+
+  const [ hashprint, setHashprint ] = useState<string>("");
 
   const isMobile = useWindowWidth() < 640;
 
@@ -105,6 +107,16 @@ const App = () => {
     load();
   }, []);
 
+  useEffect(() => {
+    const load = async () => {
+      if (account) {
+        const hashprint = await getHashprint(account, 48);
+        setHashprint(hashprint)
+      }
+    }
+    load();
+  }, [account]);
+
   return (
     <Router>
 
@@ -133,10 +145,10 @@ const App = () => {
           <div className="text-sm lg:text-base flex flex-row-reverse items-center gap-3">
             <Link className="peer" to={"/" + account}>
               <img
-                className={"duration-150 ease-in-out h-10 lg:h-12 border-2 border-primary/80 " +
+                className={"duration-150 p-1 ease-in-out h-10 lg:h-12 border-2 border-primary/80 " +
                   "shadow-none hover:shadow-primary hover:shadow-[0_0_10px_0px]"
                 }
-                src={getIdenticon({value: account, size: 48})}
+                src={hashprint}
               />
             </Link>
             <span className="peer-hover:text-primary/80 duration-150 ease-in-out text-white/50 font-semibold">

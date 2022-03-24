@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
-import { Kweet, SortBy, reduceAddress, fetchOrderedKweets, getIdenticon } from '../utils';
+import { Kweet, SortBy, reduceAddress, fetchOrderedKweets, getHashprint } from '../utils';
 import useWindowWidth from './useWindowWidth';
 import Kweets from './Kweets';
 import LoaderAnimation from './LoaderAnimation';
@@ -15,6 +15,8 @@ interface Props {
 
 const Account = ( { contract, account, owner }: Props ) => {
   const acc = useParams().address as string;
+
+  const [ hashprint, setHashprint ] = useState<string>("");
 
   const isSmall = useWindowWidth() < 768;
 
@@ -65,6 +67,9 @@ const Account = ( { contract, account, owner }: Props ) => {
   useEffect(() => {
     if (ids.length === 0) return;
     const load = async () => {
+      const hashprint = await getHashprint(acc, 140);
+      setHashprint(hashprint)
+
       // Reset kweet list
       setKweetList([]);
 
@@ -111,8 +116,8 @@ const Account = ( { contract, account, owner }: Props ) => {
           }
         >
           <img
-            className="w-24 sm:w-32 outline outline-2 sm:outline-4 outline-secondary-light bg-secondary-light/50"
-            src={ getIdenticon({value: acc, size: 150, margin:0}) }
+            className="w-24 h-24 sm:w-32 sm:h-32 outline outline-2 sm:outline-4 outline-secondary-light bg-secondary-light/50"
+            src={ hashprint }
           />
           <div className="px-2 sm:px-4 font-semibold text-base sm:text-lg flex flex-col justify-between w-full">
             <div>
