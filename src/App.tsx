@@ -169,13 +169,13 @@ const App = () => {
           <LoaderAnimation py="5em"/>
         }/>
 
-        <Route path="/:address" element={
-          !account?
-          <Navigate replace to="/"/>:
-          contract?
-          <Account account={account} contract={contract} owner={owner}/>:
-          <LoaderAnimation py="5em"/>
-        }/>
+        { account &&
+          <Route path="/:address" element={
+            contract?
+            <Account account={account} contract={contract} owner={owner}/>:
+            <LoaderAnimation py="5em"/>
+          }/>
+        }
 
         <Route path="/*" element={
           <NotFound/>
