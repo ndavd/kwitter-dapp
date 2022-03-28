@@ -62,7 +62,7 @@ const Account = ( { contract, account, owner }: Props ) => {
       }
     }
     load();
-  }, []);
+  }, [acc]);
 
   useEffect(() => {
     if (ids.length === 0) return;
