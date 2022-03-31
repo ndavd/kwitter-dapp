@@ -8056,12 +8056,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"hashprintjs@npm:latest":
-  version: 1.0.2
-  resolution: "hashprintjs@npm:1.0.2"
+"hashprintjs@npm:^1.0.4":
+  version: 1.0.4
+  resolution: "hashprintjs@npm:1.0.4"
   dependencies:
     canvas: ^2.9.1
-  checksum: a70cd5329de5583a1157389d1113ae99768fed90c0cb48f54a5ce8fcafcca14c30c6034abd2f70b792c8a00c4a2ce1a7c20b3219c2a35252e0797066ea591ce9
+  checksum: acb31e582e6f1eebcfa9bca807e358ba2766551c7d37f6de1b047fed78c6a3e670773c8e1882c62e29ba6df1ff19c8cbfba06bf32508d701bf193aa899e89e56
   languageName: node
   linkType: hard
 
@@ -9830,7 +9830,7 @@ __metadata:
     chai-as-promised: ^7.1.1
     crypto-browserify: ^3.12.0
     dotenv: ^16.0.0
-    hashprintjs: latest
+    hashprintjs: ^1.0.4
     https-browserify: ^1.0.0
     os-browserify: ^0.3.0
     postcss: ^8.4.8

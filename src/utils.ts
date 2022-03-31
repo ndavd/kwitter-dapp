@@ -1,4 +1,4 @@
-const hashprint = require("hashprintjs")
+import hashprint from "hashprintjs";
 
 export const reduceAddress = (a: string): string => {
   return a.slice(0, 5) + "..." + a.slice(a.length - 4);
