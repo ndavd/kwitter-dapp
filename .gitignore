@@ -23,3 +23,9 @@ yarn-error.log*
 
 /blender
 /notes
+/artifacts
+/deployments
+/typechain*
+/dist
+
+.env

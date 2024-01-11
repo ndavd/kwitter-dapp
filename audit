@@ -1,0 +1,2 @@
+#/usr/bin/env sh
+slither . --checklist --show-ignored-findings > audit.md
