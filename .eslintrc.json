@@ -13,6 +13,13 @@
     "@typescript-eslint",
     "simple-import-sort"
   ],
+  "settings": {
+    "tailwindcss": {
+      "callees": [
+        "classNames"
+      ]
+    }
+  },
   "rules": {
     "simple-import-sort/imports": "error",
     "simple-import-sort/exports": "error",

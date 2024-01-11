@@ -2,6 +2,8 @@ import { ethers } from 'ethers'
 import hashprint from 'hashprintjs'
 
 import { Kwitter } from '../typechain-types'
+import { KweetType } from './components/Kweet'
+import { SortBy } from './components/SortingButton'
 
 export const reduceAddress = (a: string): string => {
   if (a.endsWith('.eth')) return a
@@ -16,25 +18,13 @@ export const getEns = async (a: string) => {
   return ethers.getDefaultProvider('mainnet').lookupAddress(a)
 }
 
-export interface Kweet {
-  id: number
-  author: string
-  hashprint: string
-  content: string
-  voteCount: number
-  timestamp: number
-  hasVoted: boolean
-}
-
-export type SortBy = 'newest' | 'most voted'
-
 export const fetchOrderedKweets = async (
   contract: Kwitter,
   account: string,
   sortBy: SortBy = 'newest',
-  list: number[] = []
+  list: bigint[] = []
 ) => {
-  const fetchKweet = async (list: Kweet[], index: number) => {
+  const fetchKweet = async (list: KweetType[], index: bigint) => {
     const k = await contract.kweets(index)
     if (Number(k.id) === 0) return
 
@@ -51,11 +41,11 @@ export const fetchOrderedKweets = async (
   }
 
   const totalKweets = await contract.totalKweets()
-  const kweets: Kweet[] = []
+  const kweets: KweetType[] = []
 
   if (list.length === 0) {
     for (let i = 0; i < totalKweets; i++) {
-      await fetchKweet(kweets, i + 1)
+      await fetchKweet(kweets, BigInt(i + 1))
     }
   } else {
     for (let i = 0; i < list.length; i++) {
