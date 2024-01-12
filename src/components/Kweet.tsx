@@ -2,6 +2,7 @@ import classNames from 'classnames'
 import { FC, useCallback, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 
+import { ACCOUNT_URL_PARAM } from '../constants'
 import { KweetType } from '../types'
 import { reduceAddress } from '../utils'
 
@@ -71,7 +72,7 @@ const Kweet: FC<Props> = ({
     >
       {showAuthor && (
         <>
-          <Link to={'/' + kweet.author}>
+          <Link to={`/?${ACCOUNT_URL_PARAM}=${kweet.author}`}>
             <img
               src={kweet.hashprint}
               className={classNames(

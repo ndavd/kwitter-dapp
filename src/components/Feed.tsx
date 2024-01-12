@@ -3,6 +3,7 @@ import { FC, useCallback, useEffect, useRef, useState } from 'react'
 import { Helmet, HelmetProvider } from 'react-helmet-async'
 
 import { Kwitter } from '../../typechain-types'
+import useWindowWidth from '../hooks/useWindowWidth'
 import { KweetType, SortBy } from '../types'
 import { getHashprint } from '../utils'
 import { fetchOrderedKweets } from '../utils'
@@ -14,10 +15,11 @@ interface Props {
   contract: Kwitter
   account: string
   owner: string | undefined
-  isMobile: boolean
 }
 
-const Feed: FC<Props> = ({ isMobile, account, contract, owner }) => {
+const Feed: FC<Props> = ({ account, contract, owner }) => {
+  const isMobile = useWindowWidth() < 640
+
   const [hashprint, setHashprint] = useState<string>('')
 
   const [content, setContent] = useState<string>('')

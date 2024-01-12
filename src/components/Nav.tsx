@@ -3,6 +3,7 @@ import { BrowserProvider, ethers } from 'ethers'
 import { FC, useCallback, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
+import { ACCOUNT_URL_PARAM } from '../constants'
 import useWindowWidth from '../hooks/useWindowWidth'
 import { Wallet } from '../types'
 import { getHashprint, reduceAddress } from '../utils'
@@ -88,7 +89,7 @@ const Nav: FC<Props> = ({
   const renderUserInfo = () =>
     account ? (
       <div className='flex flex-row-reverse items-center gap-3 text-sm lg:text-base'>
-        <Link className='peer' to={'/' + account}>
+        <Link to={`/?${ACCOUNT_URL_PARAM}=${account}`} className='peer'>
           <img
             className={classNames(
               'h-10 border-2 border-primary/80 p-1 duration-150 ease-in-out lg:h-12',

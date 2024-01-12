@@ -3,14 +3,10 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
 import { Kwitter, Kwitter__factory } from '../typechain-types'
-import Account from './components/Account'
-import Feed from './components/Feed'
-import Home from './components/Home'
-import LoaderAnimation from './components/LoaderAnimation'
 import Nav from './components/Nav'
 import NotFound from './components/NotFound'
+import Root from './components/Root'
 import { SEPOLIA_CHAIN_ID, SEPOLIA_CHAIN_ID_HEX } from './constants'
-import useWindowWidth from './hooks/useWindowWidth'
 import kwitterJson from './Kwitter.json'
 import { Wallet } from './types'
 
@@ -27,8 +23,6 @@ const App = () => {
       ethers.getDefaultProvider(SEPOLIA_CHAIN_ID)
     )
   )
-
-  const isMobile = useWindowWidth() < 640
 
   const hasPhantomWallet = Boolean(window.phantom)
   const hasMetaMaskWallet = Boolean(window.ethereum?.isMetaMask)
@@ -178,32 +172,15 @@ const App = () => {
         <Route
           path='/'
           element={
-            !account ? (
-              <Home hasWallet={hasWallet} contract={contract} owner={owner} />
-            ) : connected ? (
-              <Feed
-                account={account}
-                contract={contract}
-                isMobile={isMobile}
-                owner={owner}
-              />
-            ) : (
-              <LoaderAnimation py='5em' />
-            )
+            <Root
+              account={account}
+              contract={contract}
+              owner={owner}
+              connected={connected}
+              hasWallet={hasWallet}
+            />
           }
         />
-        {account && (
-          <Route
-            path='/:address'
-            element={
-              contract ? (
-                <Account account={account} contract={contract} owner={owner} />
-              ) : (
-                <LoaderAnimation py='5em' />
-              )
-            }
-          />
-        )}
         <Route path='/*' element={<NotFound />} />
       </Routes>
     </BrowserRouter>

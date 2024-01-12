@@ -1,4 +1,6 @@
 name: Deploy to GitHub Pages
+env:
+  BUILD_PATH: dist
 on:
   workflow_dispatch:
 permissions:
@@ -27,12 +29,13 @@ jobs:
       - name: Build
         run: |
           yarn build
+          cp $BUILD_PATH/index.html $BUILD_PATH/404.html
       - name: Setup Pages
         uses: actions/configure-pages@v3
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:
-          path: 'dist'
+          path: ${{ env.BUILD_PATH }}
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2
