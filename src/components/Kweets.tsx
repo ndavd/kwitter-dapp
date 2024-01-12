@@ -2,7 +2,8 @@ import { useCallback } from 'react'
 
 import { Kwitter } from '../../typechain-types'
 import useWindowWidth from '../hooks/useWindowWidth'
-import Kweet, { KweetType } from './Kweet'
+import { KweetType } from '../types'
+import Kweet from './Kweet'
 
 interface Props {
   list: KweetType[]

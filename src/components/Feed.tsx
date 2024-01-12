@@ -3,12 +3,12 @@ import { FC, useCallback, useEffect, useRef, useState } from 'react'
 import { Helmet, HelmetProvider } from 'react-helmet-async'
 
 import { Kwitter } from '../../typechain-types'
+import { KweetType, SortBy } from '../types'
 import { getHashprint } from '../utils'
 import { fetchOrderedKweets } from '../utils'
-import { KweetType } from './Kweet'
 import Kweets from './Kweets'
 import LoaderAnimation from './LoaderAnimation'
-import SortingButton, { SortBy } from './SortingButton'
+import SortingButton from './SortingButton'
 
 interface Props {
   contract: Kwitter
@@ -25,7 +25,7 @@ const Feed: FC<Props> = ({ isMobile, account, contract, owner }) => {
 
   const kweetButtonRef = useRef<HTMLButtonElement>(null)
 
-  const [sortBy, setSortBy] = useState<SortBy>('newest')
+  const [sortBy, setSortBy] = useState<SortBy>(SortBy.NEWEST)
 
   const [kweetList, setKweetList] = useState<KweetType[] | undefined>()
 
@@ -37,14 +37,10 @@ const Feed: FC<Props> = ({ isMobile, account, contract, owner }) => {
       Math.min(e.currentTarget.scrollHeight + 2, isMobile ? 160 : 180) + 'px'
   }
 
-  const getKweets = useCallback(
-    async (forceReset?: boolean) => {
-      if (forceReset) setKweetList([])
-      setKweetList(await fetchOrderedKweets(contract, account, sortBy))
-      setContent('')
-    },
-    [account, contract, sortBy]
-  )
+  const getKweets = useCallback(async () => {
+    setKweetList(await fetchOrderedKweets(contract, account, sortBy))
+    setContent('')
+  }, [account, contract, sortBy])
 
   const submitKweet = async () => {
     if (kweetButtonRef.current) {
@@ -72,7 +68,7 @@ const Feed: FC<Props> = ({ isMobile, account, contract, owner }) => {
   }, [content])
 
   useEffect(() => {
-    getKweets(true)
+    getKweets()
   }, [getKweets])
 
   const renderInput = () => (
@@ -84,14 +80,14 @@ const Feed: FC<Props> = ({ isMobile, account, contract, owner }) => {
         onInput={adaptInputHeight}
         className={classNames(
           'peer h-24 w-full resize-none border-2 text-base sm:text-lg',
-          'border-b-0 border-secondary-light focus:outline-none',
+          'border-b-0 border-secondary-light bg-secondary text-secondary-light focus:outline-none',
           'rounded-t-md p-1 px-2 focus:border-primary-dark sm:rounded-t-xl sm:p-2 sm:pl-12'
         )}
       />
       {!isMobile && (
         <img
           className={classNames(
-            'absolute -left-2 -top-2 w-8 border-2 bg-white p-1 sm:-left-6 sm:-top-6 sm:w-16',
+            'absolute -left-2 -top-2 w-8 border-2 bg-secondary p-1 sm:-left-6 sm:-top-6 sm:w-16',
             'border-secondary-light peer-focus:border-primary-dark'
           )}
           src={hashprint}
@@ -113,7 +109,7 @@ const Feed: FC<Props> = ({ isMobile, account, contract, owner }) => {
           'w-full border-2 border-t-0 border-secondary-light italic',
           'rounded-b-md font-bold peer-focus:border-primary-dark sm:rounded-b-xl',
           'bg-primary-dark py-1 text-lg text-white duration-150 hover:hue-rotate-[10deg]',
-          'hover:tracking-[1em] disabled:bg-secondary-light disabled:tracking-normal'
+          'hover:tracking-[1em] disabled:bg-secondary-light/20 disabled:tracking-normal'
         )}
       >
         kweet

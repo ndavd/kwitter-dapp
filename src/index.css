@@ -9,4 +9,17 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  @apply bg-bg text-secondary-light;
+}
+
+::-webkit-scrollbar {
+  @apply w-2;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-inherit;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-secondary-light/30 hover:bg-secondary-light/50 rounded-full;
 }

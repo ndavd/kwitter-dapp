@@ -3,16 +3,17 @@ import { ethers } from 'ethers'
 import { FC, useEffect, useState } from 'react'
 
 import { Kwitter } from '../../typechain-types'
+import { Wallet } from '../types'
 import Footer from './Footer'
 
 interface Props {
-  hasMetaMask: boolean
+  hasWallet: boolean
   contract: Kwitter
   owner: string | undefined
 }
 
 const Home: FC<Props> = ({
-  hasMetaMask,
+  hasWallet,
   contract,
   owner = ethers.ZeroAddress
 }) => {
@@ -64,7 +65,7 @@ const Home: FC<Props> = ({
   )
 
   const renderStats = () => (
-    <div className='my-14 text-center font-semibold italic sm:text-lg'>
+    <div className='my-14 text-center font-semibold italic text-secondary-light sm:text-lg'>
       <span className='font-mono text-5xl not-italic sm:text-[5rem]'>
         {totalKweets}
       </span>
@@ -77,8 +78,30 @@ const Home: FC<Props> = ({
     </div>
   )
 
+  const renderPhantomUrl = () => (
+    <a
+      target='_blank'
+      rel='noopener noreferrer'
+      className='underline'
+      href='https://phantom.app/'
+    >
+      {Wallet.PHANTOM}
+    </a>
+  )
+
+  const renderMetaMaskUrl = () => (
+    <a
+      target='_blank'
+      rel='noopener noreferrer'
+      className='underline'
+      href='https://metamask.io/'
+    >
+      {Wallet.METAMASK}
+    </a>
+  )
+
   const renderInfo = () => (
-    <section className='my-14 text-secondary/90 lg:px-16'>
+    <section className='my-14 text-secondary-light lg:px-16'>
       <h1 className='text-4xl font-semibold lg:text-5xl'>How it works</h1>
       <p className='mt-4 lg:text-lg'>
         Share small pieces of text (
@@ -86,16 +109,7 @@ const Home: FC<Props> = ({
         Vote the kweets you like and the most voted will appear at the top of
         the feed. All data is stored exclusively on the Ethereum blockchain. No
         ads, no preferred content, it&apos;s entirely managed by the users.
-        Connect your{' '}
-        <a
-          target='_blank'
-          rel='noopener noreferrer'
-          className='underline'
-          href='https://ethereum.org/en/wallets/find-wallet'
-        >
-          browser wallet
-        </a>{' '}
-        such as MetaMask to get started.{' '}
+        Connect {renderPhantomUrl()} or {renderMetaMaskUrl()} to get started.
       </p>
       <h1 className='mt-8 text-4xl font-semibold lg:text-5xl'>The goal</h1>
       <p className='mt-4 lg:text-lg'>
@@ -113,7 +127,7 @@ const Home: FC<Props> = ({
         network public protocols should be implemented in order to prevent bad
         content).
       </p>
-      <p className='mt-4 text-center text-sm font-semibold italic text-secondary/90 sm:text-base lg:text-lg'>
+      <p className='mt-4 text-center text-sm font-semibold italic sm:text-base lg:text-lg'>
         Kweet about your day, kweet about your thoughts, kweet about your dreams
         or about anything you want. <br className='hidden lg:block' />
         Be respectful and have fun :]
@@ -152,9 +166,9 @@ const Home: FC<Props> = ({
     <>
       <main className='container mx-auto min-h-screen px-4 py-20 text-secondary sm:pt-28 lg:max-w-5xl lg:px-0'>
         {renderTitle()}
-        {hasMetaMask ? renderStats() : renderAction()}
+        {hasWallet ? renderStats() : renderAction()}
         {renderInfo()}
-        {hasMetaMask && renderAddresses()}
+        {hasWallet && renderAddresses()}
       </main>
       <Footer />
     </>

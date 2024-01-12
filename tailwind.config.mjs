@@ -5,9 +5,9 @@ export default {
       colors: {
         primary: '#00F093',
         'primary-dark': '#039c62',
+        bg: '#0d0d0d',
         secondary: '#191919',
-        'secondary-light': '#d1d1d1',
-        'secondary-transparent': '#f5f5f5'
+        'secondary-light': '#d1d1d1'
       }
     }
   },

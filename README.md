@@ -26,7 +26,7 @@
 
 ## Getting started
 
-1. Install MetaMask and create an account.
+1. Install Phantom or MetaMask and create an account.
 1. Get some Sepolia Ethereum from a faucet (for example
    [sepoliafaucet.com](https://sepoliafaucet.com/)).
 1. Reload the page and start exploring!

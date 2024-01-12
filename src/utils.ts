@@ -2,8 +2,7 @@ import { ethers } from 'ethers'
 import hashprint from 'hashprintjs'
 
 import { Kwitter } from '../typechain-types'
-import { KweetType } from './components/Kweet'
-import { SortBy } from './components/SortingButton'
+import { KweetType, SortBy } from './types'
 
 export const reduceAddress = (a: string): string => {
   if (a.endsWith('.eth')) return a
@@ -21,12 +20,12 @@ export const getEns = async (a: string) => {
 export const fetchOrderedKweets = async (
   contract: Kwitter,
   account: string,
-  sortBy: SortBy = 'newest',
+  sortBy: SortBy = SortBy.NEWEST,
   list: bigint[] = []
 ) => {
   const fetchKweet = async (list: KweetType[], index: bigint) => {
     const k = await contract.kweets(index)
-    if (Number(k.id) === 0) return
+    if (Number(k.id) == 0) return
 
     const voted = await contract.hasVoted(account, k.id)
     list.push({
@@ -43,7 +42,7 @@ export const fetchOrderedKweets = async (
   const totalKweets = await contract.totalKweets()
   const kweets: KweetType[] = []
 
-  if (list.length === 0) {
+  if (list.length == 0) {
     for (let i = 0; i < totalKweets; i++) {
       await fetchKweet(kweets, BigInt(i + 1))
     }
@@ -55,7 +54,7 @@ export const fetchOrderedKweets = async (
 
   kweets.reverse()
 
-  if (sortBy === 'most voted') {
+  if (sortBy == SortBy.MOST_VOTED) {
     kweets.sort((a, b) => b.voteCount - a.voteCount)
   }
 

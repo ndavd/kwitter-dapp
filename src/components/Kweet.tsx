@@ -2,17 +2,8 @@ import classNames from 'classnames'
 import { FC, useCallback, useState } from 'react'
 import { Link } from 'react-router-dom'
 
+import { KweetType } from '../types'
 import { reduceAddress } from '../utils'
-
-export interface KweetType {
-  id: number
-  author: string
-  hashprint: string
-  content: string
-  voteCount: number
-  timestamp: number
-  hasVoted: boolean
-}
 
 interface Props {
   kweet: KweetType
@@ -41,7 +32,14 @@ const Kweet: FC<Props> = ({
   const vote = `${kweet.voteCount + (justVoted ? 1 : 0)} ${
     kweet.voteCount == 1 ? 'vote' : 'votes'
   }`
-  const date = new Date(kweet.timestamp * 1000).toLocaleString()
+  const date = new Date(kweet.timestamp * 1000).toLocaleDateString('en-US', {
+    minute: '2-digit',
+    hour: '2-digit',
+    second: '2-digit',
+    month: 'short',
+    day: '2-digit',
+    year: 'numeric'
+  })
   const isOwner = kweet.author == owner
   const isAuthor = kweet.author == account
 
@@ -58,7 +56,7 @@ const Kweet: FC<Props> = ({
     <li
       className={classNames(
         'group relative min-h-[6rem] border-2 border-secondary-light p-2 pb-10',
-        'font-semibold text-secondary/75 sm:hover:bg-secondary-transparent',
+        'font-semibold text-secondary-light sm:hover:bg-secondary-light/10',
         {
           'pl-8': showAuthor,
           'rounded-t-md sm:rounded-t-xl': isFirst,
@@ -73,7 +71,7 @@ const Kweet: FC<Props> = ({
             <img
               src={kweet.hashprint}
               className={classNames(
-                'absolute -left-3 -top-3 h-10 w-10 border-2 bg-white p-1 sm:-left-6 sm:h-12 sm:w-12',
+                'absolute -left-3 -top-3 h-10 w-10 border-2 bg-bg p-1 sm:-left-6 sm:h-12 sm:w-12',
                 {
                   'border-yellow-500': isOwner,
                   'border-primary-dark': !isOwner
@@ -83,7 +81,8 @@ const Kweet: FC<Props> = ({
           </Link>
           <div
             className={classNames(
-              'absolute -top-3 rounded bg-white px-1 text-xs sm:text-sm sm:group-hover:bg-secondary-transparent',
+              'absolute -top-3 rounded border border-transparent bg-bg duration-200',
+              'px-1 text-xs sm:text-sm sm:group-hover:border-secondary-light/50',
               {
                 'text-yellow-500/80': isOwner,
                 'text-primary-dark/70': !isOwner
@@ -99,7 +98,7 @@ const Kweet: FC<Props> = ({
         {kweet.content}
       </div>
 
-      <div className='absolute bottom-0 right-0 z-20 text-xs text-secondary/50'>
+      <div className='absolute bottom-0 right-0 z-20 text-xs text-secondary-light/50'>
         {date}
         <button
           className={classNames(

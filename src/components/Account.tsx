@@ -1,16 +1,18 @@
 import classNames from 'classnames'
+import { ethers } from 'ethers'
 import { FC, useCallback, useEffect, useState } from 'react'
 import { Helmet, HelmetProvider } from 'react-helmet-async'
 import { useParams } from 'react-router-dom'
 
 import { Kwitter } from '../../typechain-types'
 import useWindowWidth from '../hooks/useWindowWidth'
+import { KweetType, SortBy } from '../types'
 import { fetchOrderedKweets, getHashprint, reduceAddress } from '../utils'
-import { KweetType } from './Kweet'
 import Kweets from './Kweets'
 import LoaderAnimation from './LoaderAnimation'
 import NotFound from './NotFound'
-import SortingButton, { SortBy } from './SortingButton'
+import SortingButton from './SortingButton'
+import Status from './Status'
 
 interface Props {
   contract: Kwitter
@@ -21,28 +23,36 @@ interface Props {
 const Account: FC<Props> = ({ contract, account, owner }) => {
   const acc = useParams().address as string
 
+  const [wasFound, setWasFound] = useState<boolean>(true)
+  const [sortBy, setSortBy] = useState(SortBy.NEWEST)
+  const [kweetList, setKweetList] = useState<KweetType[]>([])
+  const [firstKweetDate, setFirstKweetDate] = useState<string>()
   const [hashprint, setHashprint] = useState<string>()
+
+  const isAccount = ethers.isAddress(acc)
 
   const isSmall = useWindowWidth() < 768
 
-  const [wasFound, setWasFound] = useState<boolean>(true)
-
-  const [sortBy, setSortBy] = useState<SortBy>('newest')
-
-  const [kweetList, setKweetList] = useState<KweetType[]>([])
-
-  const [firstKweetDate, setFirstKweetDate] = useState<string>()
-
   const getKweets = useCallback(
     async (ids: bigint[]) => {
-      setKweetList([])
+      if (ids.length == 0) {
+        setKweetList([])
+        setFirstKweetDate(undefined)
+        return
+      }
+
       const kweets = await fetchOrderedKweets(contract, account, sortBy, ids)
 
       setKweetList(kweets)
 
       if (!firstKweetDate) {
+        kweets.sort((a, b) => a.timestamp - b.timestamp)
         setFirstKweetDate(
-          new Date(kweets[0].timestamp * 1000).toLocaleDateString()
+          new Date(kweets[0].timestamp * 1000).toLocaleDateString('en-US', {
+            month: 'short',
+            day: '2-digit',
+            year: 'numeric'
+          })
         )
       }
     },
@@ -61,21 +71,21 @@ const Account: FC<Props> = ({ contract, account, owner }) => {
   }, [acc, contract])
 
   useEffect(() => {
-    getIds().then(getKweets)
-  }, [getIds, getKweets])
+    if (wasFound) getIds().then(getKweets)
+  }, [getIds, getKweets, wasFound])
 
   useEffect(() => {
     getHashprint(acc, 140).then(setHashprint)
   }, [acc])
 
-  if (!wasFound) {
+  if (!isAccount) {
     return <NotFound />
   }
 
   const renderThisIsYou = () => (
     <div
       className={
-        'mb-2 self-end rounded-md bg-primary px-2 font-semibold italic sm:rounded-lg'
+        'mb-2 self-end rounded-md bg-primary px-2 font-semibold italic text-secondary sm:rounded-lg'
       }
     >
       this is you
@@ -85,7 +95,7 @@ const Account: FC<Props> = ({ contract, account, owner }) => {
   const renderThisIsOwner = () => (
     <div
       className={
-        'mb-2 rounded-md bg-yellow-500 px-2 text-center font-semibold italic text-white sm:rounded-lg'
+        'mb-2 rounded-md bg-yellow-500 px-2 text-center font-semibold italic text-secondary sm:rounded-lg'
       }
     >
       This account belongs to the Kwitter&apos;s founder
@@ -95,14 +105,14 @@ const Account: FC<Props> = ({ contract, account, owner }) => {
   const renderUserData = () => (
     <section
       className={classNames(
-        'rounded-r-md border-2 border-secondary-light sm:rounded-r-2xl sm:border-4',
-        'mb-4 flex w-full text-secondary/70'
+        'rounded-r-md border-2 border-secondary sm:rounded-r-2xl sm:border-4',
+        'mb-4 flex w-full text-secondary-light'
       )}
     >
       <img
         className={classNames(
-          'h-24 w-24 bg-secondary-light/50 outline outline-2',
-          'outline-secondary-light sm:h-32 sm:w-32 sm:outline-4'
+          'h-24 w-24 bg-secondary outline outline-2',
+          'outline-secondary-light/40 sm:h-32 sm:w-32 sm:outline-4'
         )}
         src={hashprint}
       />
@@ -111,14 +121,14 @@ const Account: FC<Props> = ({ contract, account, owner }) => {
           <div>{isSmall ? reduceAddress(acc) : acc}</div>
           <button
             onClick={() => navigator.clipboard.writeText(acc)}
-            className='hidden font-semibold italic text-secondary/40 sm:inline'
+            className='hidden font-semibold italic text-secondary-light/40 sm:inline'
           >
             copy address
           </button>
           <a
             target='_blank'
             rel='noopener noreferrer'
-            className='block font-semibold italic text-secondary/40 hover:underline sm:inline sm:pl-4'
+            className='block font-semibold italic text-secondary-light/40 hover:underline sm:inline sm:pl-4'
             href={'https://sepolia.etherscan.io/address/' + acc}
           >
             view on Etherscan
@@ -126,16 +136,35 @@ const Account: FC<Props> = ({ contract, account, owner }) => {
         </div>
         <div className='flex justify-between text-base'>
           <div>
-            <span className='text-secondary/40'>kweets: </span>
+            <span className='text-secondary-light/40'>Kweets: </span>
             {kweetList.length}
           </div>
-          <div className='hidden text-right italic text-secondary/40 sm:block sm:text-left'>
-            first kweeted on{' '}
-            <span className='text-secondary/40'>{firstKweetDate}</span>
-          </div>
+          {firstKweetDate && (
+            <div className='hidden text-right italic text-secondary-light/40 sm:block sm:text-left'>
+              First kweeted on <span>{firstKweetDate}</span>
+            </div>
+          )}
         </div>
       </div>
     </section>
+  )
+
+  const renderUserFeed = () => (
+    <>
+      <SortingButton sortBy={sortBy} setSortBy={setSortBy} />
+      {kweetList.length > 0 ? (
+        <Kweets
+          key={account}
+          list={kweetList}
+          contract={contract}
+          account={account}
+          owner={owner}
+          showAuthor={false}
+        />
+      ) : (
+        <LoaderAnimation py='1.5em' />
+      )}
+    </>
   )
 
   return (
@@ -148,7 +177,7 @@ const Account: FC<Props> = ({ contract, account, owner }) => {
 
       <main
         className={classNames(
-          'flex flex-col px-4 text-secondary md:max-w-3xl',
+          'flex flex-col px-4 text-secondary-light md:max-w-3xl',
           'mx-auto min-h-screen pt-[4.5rem] sm:px-8 sm:pt-28 md:px-10 lg:px-0'
         )}
       >
@@ -156,18 +185,7 @@ const Account: FC<Props> = ({ contract, account, owner }) => {
         {acc == owner && renderThisIsOwner()}
         {renderUserData()}
 
-        <SortingButton sortBy={sortBy} setSortBy={setSortBy} />
-        {kweetList.length > 0 ? (
-          <Kweets
-            list={kweetList}
-            contract={contract}
-            account={account}
-            owner={owner}
-            showAuthor={false}
-          />
-        ) : (
-          <LoaderAnimation py='1.5em' />
-        )}
+        {wasFound ? renderUserFeed() : <Status msg='The user has no kweets' />}
       </main>
     </>
   )

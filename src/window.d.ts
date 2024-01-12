@@ -1,11 +1,10 @@
-import { BrowserProvider } from 'ethers'
-
-interface Ethereum extends BrowserProvider {
-  isMetaMask?: boolean
-}
+import { MetaMaskEthereum, PhantomEthereum } from './types'
 
 declare global {
   interface Window {
-    ethereum?: Ethereum
+    ethereum?: MetaMaskEthereum
+    phantom?: {
+      ethereum: PhantomEthereum
+    }
   }
 }
