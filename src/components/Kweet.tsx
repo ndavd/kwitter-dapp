@@ -1,5 +1,5 @@
 import classNames from 'classnames'
-import { FC, useCallback, useState } from 'react'
+import { FC, useCallback, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 import { KweetType } from '../types'
@@ -29,9 +29,12 @@ const Kweet: FC<Props> = ({
   const [hasVoted, setHasVoted] = useState(kweet.hasVoted)
 
   const justVoted = !kweet.hasVoted && hasVoted
-  const vote = `${kweet.voteCount + (justVoted ? 1 : 0)} ${
-    kweet.voteCount == 1 ? 'vote' : 'votes'
-  }`
+
+  const vote = useMemo(() => {
+    const correctedVote = kweet.voteCount + (justVoted ? 1 : 0)
+    return `${correctedVote} ${correctedVote == 1 ? 'vote' : 'votes'}`
+  }, [kweet.voteCount, justVoted])
+
   const date = new Date(kweet.timestamp * 1000).toLocaleDateString('en-US', {
     minute: '2-digit',
     hour: '2-digit',
@@ -40,6 +43,7 @@ const Kweet: FC<Props> = ({
     day: '2-digit',
     year: 'numeric'
   })
+
   const isOwner = kweet.author == owner
   const isAuthor = kweet.author == account
 
@@ -104,10 +108,10 @@ const Kweet: FC<Props> = ({
           className={classNames(
             'ml-2 min-w-[10ch] rounded-tl border-l-2 border-t-2',
             'border-primary-dark font-mono text-base font-semibold italic text-primary-dark',
-            'duration-150 ease-in-out hover:bg-primary-dark/20 disabled:text-white sm:rounded-tl-lg sm:text-lg',
+            'duration-150 ease-in-out hover:bg-primary-dark/20 disabled:text-secondary-light/70 sm:rounded-tl-lg sm:text-lg',
             !isAuthor || kweet.hasVoted
               ? 'disabled:bg-primary-dark'
-              : 'disabled:border-transparent disabled:bg-secondary-light',
+              : 'disabled:border-transparent disabled:bg-secondary',
             { 'border-b-0': !isLast, 'rounded-br sm:rounded-br-lg': isLast }
           )}
           onClick={handleClick}

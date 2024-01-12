@@ -112,7 +112,7 @@ const Nav: FC<Props> = ({
                 <button
                   onClick={fetchBalance}
                   className={classNames(
-                    balance == '0.0000' ? 'text-red-200' : 'text-white'
+                    balance == '0.0000' ? 'text-red-200' : 'text-green-200'
                   )}
                 >
                   {balance} ETH
