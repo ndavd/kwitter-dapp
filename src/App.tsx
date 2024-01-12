@@ -1,6 +1,6 @@
 import { BrowserProvider, Eip1193Provider, ethers } from 'ethers'
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
 import { Kwitter, Kwitter__factory } from '../typechain-types'
 import Account from './components/Account'
@@ -165,7 +165,7 @@ const App = () => {
   }, [contract])
 
   return (
-    <Router>
+    <BrowserRouter>
       <Nav
         account={account}
         provider={provider}
@@ -206,7 +206,7 @@ const App = () => {
         )}
         <Route path='/*' element={<NotFound />} />
       </Routes>
-    </Router>
+    </BrowserRouter>
   )
 }
 

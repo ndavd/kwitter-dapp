@@ -14,3 +14,4 @@ jobs:
         with:
           node-version: '20'
           fail-on: 'medium'
+          target: 'src/contracts'

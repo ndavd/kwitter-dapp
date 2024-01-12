@@ -1,6 +1,7 @@
 {
   "name": "kwitter-dapp",
   "author": "ndavd.com",
+  "homepage": "https://kwitter.ndavd.com",
   "version": "0.2.0",
   "description": "A minimalistic and decentralized social platform.",
   "bugs": "https://github.com/ndavd/kwitter-dapp/issues",
