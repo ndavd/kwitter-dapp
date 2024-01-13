@@ -19,7 +19,7 @@ export const getEns = async (a: string) => {
 
 export const fetchOrderedKweets = async (
   contract: Kwitter,
-  account: string,
+  account: string | undefined,
   sortBy: SortBy = SortBy.NEWEST,
   list: bigint[] = []
 ) => {
@@ -27,7 +27,7 @@ export const fetchOrderedKweets = async (
     const k = await contract.kweets(index)
     if (Number(k.id) == 0) return
 
-    const voted = await contract.hasVoted(account, k.id)
+    const voted = account ? await contract.hasVoted(account, k.id) : false
     list.push({
       id: Number(k.id),
       author: k.author,
@@ -70,4 +70,5 @@ export const getWalletUrl = (wallet: Wallet): string => {
   }
 }
 
-export const getWalletImage = (wallet: Wallet) => `/${wallet.toLowerCase()}.webp`
+export const getWalletImage = (wallet: Wallet) =>
+  `/${wallet.toLowerCase()}.webp`

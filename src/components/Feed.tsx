@@ -1,6 +1,6 @@
 import classNames from 'classnames'
 import { FC, useCallback, useEffect, useRef, useState } from 'react'
-import { Helmet, HelmetProvider } from 'react-helmet-async'
+import { Helmet } from 'react-helmet'
 
 import { Kwitter } from '../../typechain-types'
 import useWindowWidth from '../hooks/useWindowWidth'
@@ -121,11 +121,9 @@ const Feed: FC<Props> = ({ account, contract, owner }) => {
 
   return (
     <>
-      <HelmetProvider>
-        <Helmet>
-          <title>Feed - Kwitter</title>
-        </Helmet>
-      </HelmetProvider>
+      <Helmet>
+        <title>Feed - Kwitter</title>
+      </Helmet>
 
       <main
         className={classNames(

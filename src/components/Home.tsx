@@ -73,7 +73,7 @@ const Home: FC<Props> = ({
     </div>
   )
   const renderAction = () => (
-    <div className='my-14 rounded-xl border-4 border-secondary bg-primary/60 p-4 text-center text-lg font-semibold lg:mx-16'>
+    <div className='my-14 rounded-xl bg-primary/60 p-4 text-center text-lg font-semibold text-secondary-light lg:mx-16'>
       Please install a browser wallet.
     </div>
   )

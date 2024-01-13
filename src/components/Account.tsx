@@ -1,7 +1,7 @@
 import classNames from 'classnames'
 import { ethers } from 'ethers'
 import { FC, useCallback, useEffect, useState } from 'react'
-import { Helmet, HelmetProvider } from 'react-helmet-async'
+import { Helmet } from 'react-helmet'
 
 import { Kwitter } from '../../typechain-types'
 import useWindowWidth from '../hooks/useWindowWidth'
@@ -83,17 +83,17 @@ const Account: FC<Props> = ({ contract, account, owner, addr }) => {
   const renderThisIsYou = () => (
     <div
       className={
-        'mb-2 self-end rounded-md bg-primary px-2 font-semibold italic text-secondary sm:rounded-lg'
+        'ml-1 w-24 self-start rounded-t-md bg-primary px-2 text-center font-semibold italic text-secondary sm:w-32 sm:rounded-t-lg'
       }
     >
-      this is you
+      This is you
     </div>
   )
 
   const renderThisIsOwner = () => (
     <div
       className={
-        'mb-2 rounded-md bg-yellow-500 px-2 text-center font-semibold italic text-secondary sm:rounded-lg'
+        'ml-1 w-fit rounded-r-md bg-yellow-500 px-2 text-center font-semibold italic text-secondary sm:rounded-r-lg'
       }
     >
       This account belongs to the Kwitter&apos;s founder
@@ -103,14 +103,14 @@ const Account: FC<Props> = ({ contract, account, owner, addr }) => {
   const renderUserData = () => (
     <section
       className={classNames(
-        'rounded-r-md border-2 border-secondary sm:rounded-r-2xl sm:border-4',
+        'rounded-r-md border-4 border-secondary sm:rounded-r-2xl',
         'mb-4 flex w-full text-secondary-light'
       )}
     >
       <img
         className={classNames(
-          'h-24 w-24 bg-secondary outline outline-2',
-          'outline-secondary-light/40 sm:h-32 sm:w-32 sm:outline-4'
+          'h-24 w-24 bg-secondary outline outline-4',
+          'outline-secondary-light/40 sm:h-32 sm:w-32'
         )}
         src={hashprint}
       />
@@ -121,7 +121,7 @@ const Account: FC<Props> = ({ contract, account, owner, addr }) => {
             onClick={() => navigator.clipboard.writeText(addr)}
             className='hidden font-semibold italic text-secondary-light/40 sm:inline'
           >
-            copy address
+            Copy address
           </button>
           <a
             target='_blank'
@@ -129,7 +129,7 @@ const Account: FC<Props> = ({ contract, account, owner, addr }) => {
             className='block font-semibold italic text-secondary-light/40 hover:underline sm:inline sm:pl-4'
             href={'https://sepolia.etherscan.io/address/' + addr}
           >
-            view on Etherscan
+            View on Etherscan
           </a>
         </div>
         <div className='flex justify-between text-base'>
@@ -170,11 +170,9 @@ const Account: FC<Props> = ({ contract, account, owner, addr }) => {
 
   return (
     <>
-      <HelmetProvider>
-        <Helmet>
-          <title>{addr} - Kwitter</title>
-        </Helmet>
-      </HelmetProvider>
+      <Helmet>
+        <title>{addr} - Kwitter</title>
+      </Helmet>
 
       <main
         className={classNames(

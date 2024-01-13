@@ -134,7 +134,11 @@ const Nav: FC<Props> = ({
       )}
     >
       <Link to='/' className='flex items-center gap-2 text-white/90'>
-        <img className='h-12 w-12' src='/kwitter-icon.webp' alt='Kwitter Logo' />
+        <img
+          className='h-12 w-12'
+          src='/kwitter-icon.webp'
+          alt='Kwitter Logo'
+        />
         <h1 className='hidden text-3xl font-semibold md:block'>Kwitter</h1>
       </Link>
 
