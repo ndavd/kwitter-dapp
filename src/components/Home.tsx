@@ -48,7 +48,7 @@ const Home: FC<Props> = ({
             target='_blank'
             rel='noopener noreferrer'
             className='text-primary hover:underline'
-            href='https://sepolia.dev/'
+            href='https://ethereum.org/en/developers/docs/networks#sepolia'
           >
             <span className='line-through'>Kovan</span> Sepolia Ethereum Test
             Network
