@@ -2,7 +2,7 @@ import { ethers } from 'ethers'
 import hashprint from 'hashprintjs'
 
 import { Kwitter } from '../typechain-types'
-import { KweetType, SortBy } from './types'
+import { KweetType, SortBy, Wallet } from './types'
 
 export const reduceAddress = (a: string): string => {
   if (a.endsWith('.eth')) return a
@@ -60,3 +60,14 @@ export const fetchOrderedKweets = async (
 
   return kweets
 }
+
+export const getWalletUrl = (wallet: Wallet): string => {
+  switch (wallet) {
+    case Wallet.PHANTOM:
+      return 'https://phantom.app/'
+    case Wallet.METAMASK:
+      return 'https://metamask.io/'
+  }
+}
+
+export const getWalletImage = (wallet: Wallet) => `/${wallet.toLowerCase()}.webp`

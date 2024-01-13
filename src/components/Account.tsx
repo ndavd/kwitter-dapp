@@ -189,7 +189,7 @@ const Account: FC<Props> = ({ contract, account, owner, addr }) => {
         {!account ? (
           <Status msg='Connect to see kweets' />
         ) : !wasFound ? (
-          <Status msg='The user has no kweets' />
+          <Status msg='The account has no kweets' />
         ) : (
           renderUserFeed()
         )}

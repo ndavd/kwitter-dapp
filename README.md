@@ -6,7 +6,7 @@
 </br>
 <p align="center">
   <img
-    src="https://raw.githubusercontent.com/ndavd/kwitter-dapp/main/public/kwitter-logo.png"
+    src="https://raw.githubusercontent.com/ndavd/kwitter-dapp/main/public/kwitter-logo.webp"
     width=350
   />
 </p>

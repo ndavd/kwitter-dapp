@@ -2,30 +2,24 @@ import classNames from 'classnames'
 import { FC } from 'react'
 
 import { Wallet } from '../types'
+import { getWalletImage } from '../utils'
 
 interface Props {
-  hasPhantomWallet: boolean
-  hasMetaMaskWallet: boolean
   onWalletSelect: (wallet: Wallet) => void
   onClose: () => void
 }
 
-const WalletsModal: FC<Props> = ({
-  hasPhantomWallet,
-  hasMetaMaskWallet,
-  onWalletSelect,
-  onClose
-}) => {
-  const renderButton = (wallet: Wallet, disabled: boolean) => (
+const WalletsModal: FC<Props> = ({ onWalletSelect, onClose }) => {
+  const renderButton = (wallet: Wallet) => (
     <button
-      disabled={disabled}
       className={classNames(
-        'w-full rounded-lg border border-primary p-2 text-center font-mono text-primary',
-        'duration-75 hover:bg-primary hover:text-secondary'
+        'h-14 rounded-lg border border-primary p-2 font-mono text-primary',
+        'flex flex-row items-center gap-4 font-bold duration-75 hover:bg-primary hover:text-secondary'
       )}
       onClick={() => onWalletSelect(wallet)}
     >
-      {wallet}
+      <img className='w-9' src={getWalletImage(wallet)} alt={wallet} />
+      <span>{wallet}</span>
     </button>
   )
   return (
@@ -36,12 +30,12 @@ const WalletsModal: FC<Props> = ({
       />
       <div
         className={classNames(
-          'fixed inset-0 m-auto flex h-fit w-full max-w-md flex-col',
+          'fixed inset-0 m-auto flex h-fit w-full max-w-xs flex-col',
           'gap-4 rounded-lg bg-secondary p-5 py-8'
         )}
       >
-        {renderButton(Wallet.PHANTOM, !hasPhantomWallet)}
-        {renderButton(Wallet.METAMASK, !hasMetaMaskWallet)}
+        {renderButton(Wallet.PHANTOM)}
+        {renderButton(Wallet.METAMASK)}
       </div>
     </>
   )

@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 import { ACCOUNT_URL_PARAM } from '../constants'
 import useWindowWidth from '../hooks/useWindowWidth'
 import { Wallet } from '../types'
-import { getHashprint, reduceAddress } from '../utils'
+import { getHashprint, getWalletUrl, reduceAddress } from '../utils'
 import WalletsModal from './WalletsModal'
 
 interface Props {
@@ -58,20 +58,18 @@ const Nav: FC<Props> = ({
   const handleCloseModal = () => setModal(false)
 
   const handleWalletSelect = (wallet: Wallet) => {
-    onWalletSelect(wallet)
+    if (
+      (wallet == Wallet.METAMASK && hasMetaMaskWallet) ||
+      (wallet == Wallet.PHANTOM && hasPhantomWallet)
+    ) {
+      onWalletSelect(wallet)
+    } else {
+      window.open(getWalletUrl(wallet), wallet, 'noopener noreferrer')
+    }
     handleCloseModal()
   }
 
-  const handleClick = () => {
-    if (hasMetaMaskWallet || hasPhantomWallet) {
-      return setModal(true)
-    }
-    window.open(
-      'https://ethereum.org/en/wallets/find-wallet',
-      'Ethereum Wallets',
-      'noopener noreferrer'
-    )
-  }
+  const handleClick = () => setModal(true)
 
   const renderInstallConnectButton = () => (
     <button
@@ -82,7 +80,7 @@ const Nav: FC<Props> = ({
         'hover:bg-primary hover:text-secondary hover:shadow-[0_0_20px_-3px]'
       )}
     >
-      {hasMetaMaskWallet ? 'Connect' : 'Install'}
+      {hasMetaMaskWallet || hasPhantomWallet ? 'Connect' : 'Install'}
     </button>
   )
 
@@ -136,14 +134,12 @@ const Nav: FC<Props> = ({
       )}
     >
       <Link to='/' className='flex items-center gap-2 text-white/90'>
-        <img className='h-12 w-12' src='/kwitter-icon.png' alt='Kwitter Logo' />
+        <img className='h-12 w-12' src='/kwitter-icon.webp' alt='Kwitter Logo' />
         <h1 className='hidden text-3xl font-semibold md:block'>Kwitter</h1>
       </Link>
 
       {modal && (
         <WalletsModal
-          hasPhantomWallet={hasPhantomWallet}
-          hasMetaMaskWallet={hasMetaMaskWallet}
           onWalletSelect={handleWalletSelect}
           onClose={handleCloseModal}
         />

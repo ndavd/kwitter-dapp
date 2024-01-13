@@ -58,7 +58,7 @@ const Home: FC<Props> = ({
       </div>
       <img
         className='w-4/5 sm:w-60 lg:w-96'
-        src='/kwitter-logo.png'
+        src='/kwitter-logo.webp'
         alt='Kwitter Logo'
       />
     </section>
