@@ -115,7 +115,7 @@ const Home: FC<Props> = ({
       <p className='mt-4 lg:text-lg'>
         Kwitter was not built to be a scalable social network but{' '}
         <span className='font-semibold'>
-          to simply demonstrate how blockchain technology can be useful even in
+          to simply demonstrate how blockchain technology can be used to improve
           the social media domain.
         </span>{' '}
         It&apos;s therefore deployed on a testnet, which provides similar

@@ -43,7 +43,7 @@ entirely managed by the users.
 ## The goal
 
 Kwitter was not built to be a scalable social network but <strong>to simply
-demonstrate how blockchain technology can be useful even in the social media
+demonstrate how blockchain technology can be used to improve the social media
 domain.</strong> It's therefore deployed on a testnet, which provides similar
 functionality as the main network while being free to use.
 
